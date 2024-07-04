@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request) {
-  console.log("Hello from middleware!");
-  // Add a header to the response
-  return NextResponse.next({
-    headers: {
-      "x-custom-middleware": "hello",
-    },
-  });
+export default async function middleware(request) {
+  const cookie = cookies().get("token");
+  if (!cookie) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: "/",
+  matcher: ["/", "/api/todo", "/api/todo/:path*"],
 };

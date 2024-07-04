@@ -1,8 +1,29 @@
+import axios from "axios";
+
+async function login(values) {
+  try {
+    const response = await axios.post("/api/auth/login", values);
+    const data = response;
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data);
+  }
+}
+
+async function register(values) {
+  try {
+    const response = await axios.post("/api/auth/register", values);
+    const data = response;
+    return data;
+  } catch (error) {
+    throw new Error(error.response.data);
+  }
+}
+
 async function getTodos() {
   try {
-    const res = await fetch("/api/todo");
-    const data = await res.json();
-    return data.todos;
+    const response = await axios.get("/api/todo");
+    return response.data.todos;
   } catch (error) {
     throw new Error("Failed to fetch todos");
   }
@@ -10,13 +31,8 @@ async function getTodos() {
 
 async function postTodo(newTodo) {
   try {
-    await fetch("/api/todo", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title: newTodo }),
-    });
+    const response = await axios.post("/api/todo", { title: newTodo });
+    return response.data.todo;
   } catch (error) {
     throw new Error("Failed to add todo");
   }
@@ -24,9 +40,8 @@ async function postTodo(newTodo) {
 
 const DeleteTodo = async (id) => {
   try {
-    await fetch(`/api/todo/${id}`, {
-      method: "DELETE",
-    });
+    const response = await axios.delete(`/api/todo/${id}`);
+    return response.data.todo;
   } catch (error) {
     throw new Error("Failed to delete todo");
   }
@@ -34,9 +49,8 @@ const DeleteTodo = async (id) => {
 
 const toggleCompleteTodo = async (id) => {
   try {
-    await fetch(`/api/todo/${id}`, {
-      method: "PUT",
-    });
+    const response = await axios.put(`/api/todo/${id}`);
+    return response.data.todo;
   } catch (error) {
     throw new Error("Failed to complete todo");
   }
@@ -44,16 +58,19 @@ const toggleCompleteTodo = async (id) => {
 
 const updateTodo = async ({ id, title }) => {
   try {
-    await fetch(`/api/todo/${id}`, {
-      method: "POST",
-      body: JSON.stringify({ title }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(`/api/todo/${id}`, { title });
+    return response.data.todo;
   } catch (error) {
     throw new Error("Failed to update todo");
   }
 };
 
-export { DeleteTodo, toggleCompleteTodo, updateTodo, getTodos, postTodo };
+export {
+  DeleteTodo,
+  toggleCompleteTodo,
+  updateTodo,
+  getTodos,
+  postTodo,
+  login,
+  register,
+};

@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  //   experimental: {
-  //     esmExternals: "loose",
-  //     serverComponentsExternalPackages: ["mongoose"],
-  //   },
+  experimental: {
+    // esmExternals: "loose",
+    // serverComponentsExternalPackages: ["mongoose"],
+  },
 };
 
 export default nextConfig;
